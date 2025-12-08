@@ -1,0 +1,69 @@
+[33mcommit 59bcf400c8fab3e2a62a3a7618967017447b3cea[m[33m ([m[1;36mHEAD -> [m[1;32mcar_movement[m[33m)[m
+Author: TommyBergo <tommaso.bergonzoni@gmail.com>
+Date:   Mon Dec 8 01:41:48 2025 +0100
+
+    car movement added
+
+[33mcommit 09caa213cea885ebb3c7a9cfd542e319beffb2ea[m
+Merge: 53cd62b 9f5825f
+Author: Aksel Can Sozudogru <89808958+AkselCan@users.noreply.github.com>
+Date:   Thu Nov 20 18:39:28 2025 -0600
+
+    Merge pull request #1 from AkselCan/pitbox-test
+    
+    Merge Ryan and Aksel progress
+
+[33mcommit 9f5825fa9ed1c96ad49af1320aa72ea35266dabb[m
+Author: RTW29 <guitarryan12@gmail.com>
+Date:   Thu Nov 20 18:36:59 2025 -0600
+
+    line up pitbox with track
+
+[33mcommit 44ceed4026daea77e8fa7eae6d90cc8d0ab7b907[m[33m ([m[1;31morigin/pitbox-test[m[33m, [m[1;32mpitbox-test[m[33m)[m
+Author: AkselCan <aksel2606@gmail.com>
+Date:   Thu Nov 20 18:15:20 2025 -0600
+
+    Track added
+
+[33mcommit 42c3a93882f722cf5427bbdcb57c5175cc71e61a[m
+Author: RTW29 <guitarryan12@gmail.com>
+Date:   Thu Nov 20 18:09:12 2025 -0600
+
+    push test branch
+
+[33mcommit c84938b4bd85debc62254c75787575aac1c1891a[m
+Merge: d938239 53cd62b
+Author: RTW29 <guitarryan12@gmail.com>
+Date:   Thu Nov 20 18:03:24 2025 -0600
+
+    Merge branch 'main' into pitbox-test
+
+[33mcommit 53cd62b2a5814ae8be6e4884ffae40c4919f3d74[m
+Author: AkselCan <aksel2606@gmail.com>
+Date:   Thu Nov 20 17:56:24 2025 -0600
+
+    Track added
+
+[33mcommit d9382395e04fb91e982a7ab09e501b5a3f6e5188[m[33m ([m[1;31morigin/pitbox-ryan[m[33m, [m[1;32mpitbox-ryan[m[33m)[m
+Author: RTW29 <guitarryan12@gmail.com>
+Date:   Thu Nov 20 16:59:09 2025 -0600
+
+    trying to just push it all, fingers crossed
+
+[33mcommit 1a99f5cfd564f117d0d0874ba106cce58705a7ba[m
+Author: RTW29 <guitarryan12@gmail.com>
+Date:   Wed Nov 5 00:36:56 2025 -0600
+
+    Unity: smart-merge hints + LF endings
+
+[33mcommit f05d39fc9642610886ec2a21c76a93471b8aca9d[m
+Author: AkselCan <aksel2606@gmail.com>
+Date:   Sat Oct 18 18:04:10 2025 -0500
+
+    Merged miniunityproject
+
+[33mcommit 16d322eb227f8dbdeb4ecc82c776aaa320268b5c[m
+Author: Aksel Can Sozudogru <89808958+AkselCan@users.noreply.github.com>
+Date:   Tue Sep 30 17:00:57 2025 -0500
+
+    Initial commit

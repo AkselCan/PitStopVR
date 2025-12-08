@@ -6,9 +6,11 @@ public class MainMenuController : MonoBehaviour
     // Call this method when Start button is pressed
     public void StartGame()
     {
-        Debug.Log("Loading Main scene...");
+        Debug.Log("Loading Main and PitBox scenes...");
         SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("PitBox", LoadSceneMode.Additive);
     }
+
 
     // If you want to use the scene index instead of name:
     // SceneManager.LoadScene(1); // where 1 is the index in Build Settings

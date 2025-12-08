@@ -1,0 +1,152 @@
+fileFormatVersion: 2
+guid: 9360d9d5899a6794783aa95d450e1370
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 2
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 1
+    lightIntensityFactor: 1
+    sceneObjectCreation: 2
+  assetDependencies:
+  - type: 0
+    originalUri: Assets\F1\mclaren\scene.bin
+    assetPath: Assets\F1\mclaren\scene.bin
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\generics_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\generics_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_mirror_left_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_mirror_left_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\glass_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\glass_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\rear_light_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\rear_light_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_carbon3_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_carbon3_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_carbon3_normal.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_carbon3_normal.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_paint_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_paint_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_paint_specularf0.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_paint_specularf0.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_detail_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_detail_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_halo_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_halo_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_carbon3_UV_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_carbon3_UV_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_paint2_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_paint2_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_number_4_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_number_4_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_display_sponsor_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_display_sponsor_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_decal_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_decal_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_halo_decal_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_halo_decal_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\TIRE_SIDES_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\TIRE_SIDES_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_wheel_hub_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_wheel_hub_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\discs_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\discs_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\lcd_glass_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\lcd_glass_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\material_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\material_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\material_specularf0.png
+    assetPath: Assets\F1\mclaren\textures\material_specularf0.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\indicator_lights_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\indicator_lights_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\indicator_lights_back_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\indicator_lights_back_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_carbon4_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_carbon4_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_steeringwheel_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_steeringwheel_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\steer_plastic_dark_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\steer_plastic_dark_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\steer_plastic_gray_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\steer_plastic_gray_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\steer_metal_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\steer_metal_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_steeringwheel_decal_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_steeringwheel_decal_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\steer_rubber_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\steer_rubber_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\cockpit_metal_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\cockpit_metal_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\cockpit_metal_specularf0.png
+    assetPath: Assets\F1\mclaren\textures\cockpit_metal_specularf0.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\TCAM_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\TCAM_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_number_4_old_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_number_4_old_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\cockpit_foam_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\cockpit_foam_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\cockpit_metal_dark_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\cockpit_metal_dark_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\cockpit_carbon_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\cockpit_carbon_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\mclaren\textures\mclaren_number_4_new_baseColor.png
+    assetPath: Assets\F1\mclaren\textures\mclaren_number_4_new_baseColor.png
+  reportItems:
+  - type: 2
+    code: 20
+    messages:
+    - KHR_materials_specular

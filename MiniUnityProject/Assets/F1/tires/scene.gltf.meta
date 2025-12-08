@@ -1,0 +1,55 @@
+fileFormatVersion: 2
+guid: 7d498bbed68077b43997ad0939ef7d69
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 2
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 1
+    lightIntensityFactor: 1
+    sceneObjectCreation: 2
+  assetDependencies:
+  - type: 0
+    originalUri: Assets\F1\tires\scene.bin
+    assetPath: Assets\F1\tires\scene.bin
+  - type: 1
+    originalUri: Assets\F1\tires\textures\MEDIUM_TYRE.001_baseColor.jpeg
+    assetPath: Assets\F1\tires\textures\MEDIUM_TYRE.001_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\F1\tires\textures\MEDIUM_TYRE.001_metallicRoughness.png
+    assetPath: Assets\F1\tires\textures\MEDIUM_TYRE.001_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\F1\tires\textures\MEDIUM_TYRE.001_normal.jpeg
+    assetPath: Assets\F1\tires\textures\MEDIUM_TYRE.001_normal.jpeg
+  - type: 1
+    originalUri: Assets\F1\tires\textures\BRAKES_baseColor.jpeg
+    assetPath: Assets\F1\tires\textures\BRAKES_baseColor.jpeg
+  - type: 1
+    originalUri: Assets\F1\tires\textures\BRAKES_metallicRoughness.png
+    assetPath: Assets\F1\tires\textures\BRAKES_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\F1\tires\textures\BRAKES_normal.jpeg
+    assetPath: Assets\F1\tires\textures\BRAKES_normal.jpeg
+  - type: 1
+    originalUri: Assets\F1\tires\textures\SOFT_TYRE_baseColor.png
+    assetPath: Assets\F1\tires\textures\SOFT_TYRE_baseColor.png
+  - type: 1
+    originalUri: Assets\F1\tires\textures\HARD_TYRE_baseColor.png
+    assetPath: Assets\F1\tires\textures\HARD_TYRE_baseColor.png
+  reportItems: []

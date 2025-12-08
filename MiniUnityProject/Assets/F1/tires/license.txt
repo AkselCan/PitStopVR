@@ -1,0 +1,11 @@
+Model Information:
+* title:	f1 tyres
+* source:	https://sketchfab.com/3d-models/f1-tyres-a918304c11a342559e67eb16fdc2b942
+* author:	jugadorjpok (https://sketchfab.com/jugadorjpok)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "f1 tyres" (https://sketchfab.com/3d-models/f1-tyres-a918304c11a342559e67eb16fdc2b942) by jugadorjpok (https://sketchfab.com/jugadorjpok) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

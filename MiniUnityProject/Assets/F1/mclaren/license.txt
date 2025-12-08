@@ -1,0 +1,11 @@
+Model Information:
+* title:	F1 2024 Mclaren MCL38
+* source:	https://sketchfab.com/3d-models/f1-2024-mclaren-mcl38-2950bc595eca43bb86837f25c37ce724
+* author:	MattsActuallyUsefulModels (https://sketchfab.com/MattsActuallyUsefulModels)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "F1 2024 Mclaren MCL38" (https://sketchfab.com/3d-models/f1-2024-mclaren-mcl38-2950bc595eca43bb86837f25c37ce724) by MattsActuallyUsefulModels (https://sketchfab.com/MattsActuallyUsefulModels) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
