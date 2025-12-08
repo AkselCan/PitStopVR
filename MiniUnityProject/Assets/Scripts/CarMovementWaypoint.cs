@@ -6,10 +6,14 @@ public class CarMovementWaypoint : MonoBehaviour
     // Public variables configurable in the Unity Inspector
     [Header("Path Settings")]
     public List<Transform> waypoints = new List<Transform>(); 
-    public float fastMovementSpeed = 25f;    // Speed for waypoints 0 to 6
-    public float slowMovementSpeed = 5f;     // Speed for waypoint 7 and onwards
-    public float rotationSpeed = 5f; 
+    public float fastMovementSpeed = 25f; 	// Speed for waypoints 0 to 6
+    public float slowMovementSpeed = 5f; 	// Speed for waypoint 7 and onwards
+    public float standardRotationSpeed = 5f; // Standard rotation speed
     public float stoppingDistance = 0.1f; 
+
+    [Header("Custom Settings")]
+    // Increased speed for rotation between waypoint 9 and 10 (when index is 9)
+    public float aggressiveRotationSpeed = 30f; 
 
     // Private variables
     private Quaternion rotationOffset = Quaternion.Euler(0, 180, 0);
@@ -50,14 +54,28 @@ public class CarMovementWaypoint : MonoBehaviour
         Vector3 targetPosition = waypoints[currentWaypointIndex].position;
 
         // --- Speed Control Logic ---
-        float currentSpeed;
+        float currentMovementSpeed;
         if (currentWaypointIndex < 7) 
         {
-            currentSpeed = fastMovementSpeed;
+            currentMovementSpeed = fastMovementSpeed;
         }
         else 
         {
-            currentSpeed = slowMovementSpeed;
+            currentMovementSpeed = slowMovementSpeed;
+        }
+
+        // --- Custom Rotation Speed Logic ---
+        float currentRotationSpeed;
+        // The car is moving *toward* waypoint 10 when the index is 9.
+        if (currentWaypointIndex == 9) 
+        {
+            // Apply a much faster rotation speed to straighten the car before stopping.
+            currentRotationSpeed = aggressiveRotationSpeed;
+        }
+        else
+        {
+            // Use the standard rotation speed for all other movements.
+            currentRotationSpeed = standardRotationSpeed;
         }
 
         // 1. **Rotation:** Make the car look at the target waypoint
@@ -68,11 +86,12 @@ public class CarMovementWaypoint : MonoBehaviour
         {
             Quaternion targetLookRotation = Quaternion.LookRotation(directionToTarget);
             Quaternion correctedRotation = targetLookRotation * rotationOffset;
-            transform.rotation = Quaternion.Slerp(transform.rotation, correctedRotation, rotationSpeed * Time.deltaTime);
+            // Use the dynamic 'currentRotationSpeed' here
+            transform.rotation = Quaternion.Slerp(transform.rotation, correctedRotation, currentRotationSpeed * Time.deltaTime);
         }
 
         // 2. **Movement:** Move the car towards the target waypoint
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentMovementSpeed * Time.deltaTime);
 
         // 3. **Waypoint Check:** Check if the car has reached the current waypoint
         if (Vector3.Distance(transform.position, targetPosition) < stoppingDistance)
@@ -90,11 +109,7 @@ public class CarMovementWaypoint : MonoBehaviour
         pitStopInitiated = true; // Set flag to prevent repeated calls
         enabled = false; // Stop this movement script immediately
 
-        // In a real game, you would fire a C# Event here (e.g., PitStopManager.OnPitStopStarted.Invoke())
         // For now, we use a simple Debug.Log to represent the "pitstop_started" trigger.
         Debug.Log("--- TRIGGER FIRED: pitstop_started --- Car is now stopped and ready for service.");
-
-        // NOTE: The next action (calling CarExitWaypoint.StartExitSequence) 
-        // will be handled externally when 'pitstop_finished' is triggered.
     }
 }
