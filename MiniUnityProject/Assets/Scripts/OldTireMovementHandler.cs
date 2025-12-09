@@ -4,47 +4,39 @@ using System.Collections.Generic;
 // Attach this script to the 'Old Tire' GameObject
 public class OldTireMovementHandler : MonoBehaviour
 {
-    // *** NEW: Reference to the New Tire's movement script ***
     [Header("Inter-Script Communication")]
-    [Tooltip("Drag the New Tire GameObject here. This script will directly call its movement method.")]
+    [Tooltip("Drag the New Tire GameObject (with NewTireMovementHandler) here.")]
     public NewTireMovementHandler newTireHandler;
 
-    // Public variables configurable in the Unity Inspector
-    [Header("Tire Path Settings")]
-    // ... (restano invariate) ...
+    [Header("Old Tire Path Settings")]
+    [Tooltip("Path from the car's wheel position to the disposal area.")]
     public List<Transform> waypoints = new List<Transform>();
     public float movementSpeed = 8f;
-    public float stoppingDistance = 0.1f; 
+    public float stoppingDistance = 0.1f;
 
-    [Header("Testing and State")]
-    public KeyCode activationKey = KeyCode.T;
-    
-    // Private variables
+    [Header("Rotation Settings")]
+    [Tooltip("How fast the old tire rotates to match the waypoint orientation (degrees per second).")]
+    public float rotationSpeed = 720f;
+
     private int currentWaypointIndex = 0;
-    private bool isMoving = false; 
-    private Rigidbody rb; 
+    private bool isMoving = false;
+    private Rigidbody rb;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody>();
 
         if (waypoints.Count == 0)
         {
-            Debug.LogError("Waypoints list for the old tire is empty! Please assign waypoints in the Inspector.");
+            Debug.LogError("OldTireMovementHandler: Waypoints list is empty! Please assign waypoints in the Inspector.");
         }
-        
-        enabled = false; 
+
+        // Match NewTireMovementHandler: script starts disabled and waits for explicit trigger
+        enabled = false;
     }
 
     void Update()
     {
-        // ... (Update logic remains unchanged) ...
-        if (Input.GetKeyDown(activationKey) && !isMoving)
-        {
-            Debug.Log($"--- TEST TRIGGER: Key '{activationKey}' pressed. Calling InitiateTireMovement().");
-            InitiateTireMovement();
-        }
-
         if (!isMoving || waypoints.Count == 0)
         {
             return;
@@ -56,13 +48,28 @@ public class OldTireMovementHandler : MonoBehaviour
             return;
         }
 
-        Vector3 targetPosition = waypoints[currentWaypointIndex].position;
+        // ----- 1. Target position & rotation for this waypoint -----
+        Transform target = waypoints[currentWaypointIndex];
+        Vector3 targetPosition = target.position;
+        Quaternion targetRotation = target.rotation;
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
+        // ----- 2. Move toward position -----
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            targetPosition,
+            movementSpeed * Time.deltaTime
+        );
 
-        Vector3 currentXZ = new Vector3(transform.position.x, 0, transform.position.z);
-        Vector3 targetXZ = new Vector3(targetPosition.x, 0, targetPosition.z);
-        
+        // ----- 3. Rotate toward waypoint rotation (like the new tire) -----
+        transform.rotation = Quaternion.RotateTowards(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
+        );
+
+        // ----- 4. Waypoint check (XZ plane, same style as new tire script) -----
+        Vector3 currentXZ = new Vector3(transform.position.x, 0f, transform.position.z);
+        Vector3 targetXZ = new Vector3(targetPosition.x, 0f, targetPosition.z);
         float distanceXZ = Vector3.Distance(currentXZ, targetXZ);
 
         if (distanceXZ < stoppingDistance)
@@ -74,50 +81,65 @@ public class OldTireMovementHandler : MonoBehaviour
     [ContextMenu("TRIGGER: Tyre Removed (Start Movement)")]
     public void InitiateTireMovement()
     {
-        if (waypoints.Count == 0 || isMoving)
+        if (waypoints.Count == 0)
         {
-            if (waypoints.Count == 0) Debug.LogError("Cannot initiate movement: Waypoints list is empty.");
-            if (isMoving) Debug.LogWarning("Old Tire is already moving. Ignoring initiation call.");
-            return; 
+            Debug.LogError("OldTireMovementHandler: Cannot initiate movement, waypoints list is empty.");
+            return;
         }
-        
-        // Decouple the tire and handle physics
-        transform.parent = null; 
-        
+
+        if (isMoving)
+        {
+            Debug.LogWarning("OldTireMovementHandler: Old tire is already moving. Ignoring initiation call.");
+            return;
+        }
+
+        // ----- Decouple from the car (so it won't move with it) -----
+        transform.SetParent(null);
+
+        // Match new tire: kinematic during scripted movement
         if (rb != null)
         {
             rb.isKinematic = true;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
-        
-        transform.position = waypoints[0].position;
 
-        Debug.Log("--- TRIGGER FIRED: tyre_removed --- Old Tire movement initiated.");
-        
-        currentWaypointIndex = 0; 
+        // IMPORTANT: Do NOT teleport to waypoints[0]; start from the hub position
+        currentWaypointIndex = 0;
         isMoving = true;
-        enabled = true; 
+        enabled = true;
+
+        Debug.Log("OldTireMovementHandler: Movement initiated.");
     }
 
     private void FinalDestinationReached()
     {
-        isMoving = false; 
-        enabled = false; 
-        
+        isMoving = false;
+        enabled = false;
+
+        // Snap EXACTLY to the final waypoint's position + rotation
+        Transform last = waypoints[waypoints.Count - 1];
+        transform.SetPositionAndRotation(last.position, last.rotation);
+
         if (rb != null)
         {
-            rb.isKinematic = false;
+            // Match the “attached / fixed” behavior style: keep it frozen at disposal point
+            rb.isKinematic = true;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
 
-        Debug.Log("Old Tire successfully moved to the disposal point.");
-        
-        // *** NEW: CHIAMATA DIRETTA AL METODO DELL'ALTRO SCRIPT ***
+        Debug.Log("OldTireMovementHandler: Old tire reached disposal point.");
+
+        // Trigger the new tire, just like before
         if (newTireHandler != null)
         {
-            Debug.Log("--- CALLING METHOD: move_new_tire --- Activating new tire handler via direct call.");
-            // Chiama il metodo pubblico sulla variabile 'newTireHandler'
+            Debug.Log("OldTireMovementHandler: Triggering new tire movement.");
             newTireHandler.StartNewTireMovement();
+        }
+        else
+        {
+            Debug.LogWarning("OldTireMovementHandler: newTireHandler reference not assigned in the Inspector.");
         }
     }
 }
