@@ -6,14 +6,18 @@ public class CarMovementWaypoint : MonoBehaviour
     // Public variables configurable in the Unity Inspector
     [Header("Path Settings")]
     public List<Transform> waypoints = new List<Transform>(); 
-    public float fastMovementSpeed = 25f; 	// Speed for waypoints 0 to 6
-    public float slowMovementSpeed = 5f; 	// Speed for waypoint 7 and onwards
+    public float fastMovementSpeed = 25f;  // Speed for waypoints 0 to 6
+    public float slowMovementSpeed = 5f;    // Speed for waypoint 7 and onwards
     public float standardRotationSpeed = 5f; // Standard rotation speed
     public float stoppingDistance = 0.1f; 
 
     [Header("Custom Settings")]
     // Increased speed for rotation between waypoint 9 and 10 (when index is 9)
     public float aggressiveRotationSpeed = 30f; 
+
+    // --- REFERENCE FOR THE TIMER MANAGER ---
+    // Reference to the TimerManager script instance in the scene.
+    private TimerManager timerManager;
 
     // Private variables
     private Quaternion rotationOffset = Quaternion.Euler(0, 180, 0);
@@ -23,6 +27,19 @@ public class CarMovementWaypoint : MonoBehaviour
 
     void Start()
     {
+        // 1. Find the TimerManager script instance in the scene.
+        timerManager = FindObjectOfType<TimerManager>();
+
+        if (timerManager == null)
+        {
+            Debug.LogError("TimerManager script not found in the scene! Cannot control the timer.");
+        }
+        else
+        {
+            // Ensure the timer is stopped and reset at the start of the scene.
+            timerManager.StopTimer(); 
+        }
+
         // Initial check to ensure waypoints have been assigned
         if (waypoints.Count == 0)
         {
@@ -31,7 +48,6 @@ public class CarMovementWaypoint : MonoBehaviour
         }
         
         // Set the car's height to the starting waypoint's height
-        // This line assumes the first waypoint is near the car's starting X/Z position
         if (waypoints.Count > 0)
         {
             transform.position = new Vector3(transform.position.x, waypoints[0].position.y, transform.position.z);
@@ -40,7 +56,7 @@ public class CarMovementWaypoint : MonoBehaviour
 
     void Update()
     {
-        // Check if the car has reached the final waypoint
+        // Check if the car has reached the final waypoint (index is out of bounds)
         if (currentWaypointIndex >= waypoints.Count)
         {
             // The car is stopped. Execute the pit stop initiation only once.
@@ -69,7 +85,6 @@ public class CarMovementWaypoint : MonoBehaviour
         // The car is moving *toward* waypoint 10 when the index is 9.
         if (currentWaypointIndex == 9) 
         {
-            // Apply a much faster rotation speed to straighten the car before stopping.
             currentRotationSpeed = aggressiveRotationSpeed;
         }
         else
@@ -102,14 +117,21 @@ public class CarMovementWaypoint : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when the car reaches the final waypoint. This acts as the "pitstop_started" trigger.
+    /// Called when the car reaches the final waypoint. 
+    /// This acts as the "pitstop_started" trigger and STARTS THE TIMER.
     /// </summary>
     public void StartPitStop()
     {
         pitStopInitiated = true; // Set flag to prevent repeated calls
         enabled = false; // Stop this movement script immediately
 
-        // For now, we use a simple Debug.Log to represent the "pitstop_started" trigger.
-        Debug.Log("--- TRIGGER FIRED: pitstop_started --- Car is now stopped and ready for service.");
+        // --- KEY ACTION: START THE TIMER ---
+        if (timerManager != null)
+        {
+            // Call the public method on the TimerManager instance.
+            timerManager.StartTimer(); 
+        }
+
+        Debug.Log("--- TRIGGER FIRED: pitstop_started --- Timer is now running!");
     }
 }

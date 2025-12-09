@@ -5,15 +5,26 @@ public class CarExitWaypoint : MonoBehaviour
 {
     [Header("Exit Path Settings")]
     public List<Transform> exitWaypoints = new List<Transform>(); 
-    public float exitSpeed = 20f;       
+    public float exitSpeed = 20f;      
     public float rotationSpeed = 5f; 
     public float stoppingDistance = 0.1f; 
+
+    // --- NEW REFERENCE FOR THE TIMER MANAGER ---
+    private TimerManager timerManager;
 
     private Quaternion rotationOffset = Quaternion.Euler(0, 180, 0);
     private int currentWaypointIndex = 0;
 
     void Start()
     {
+        // 1. Find the TimerManager script instance in the scene.
+        timerManager = FindObjectOfType<TimerManager>();
+
+        if (timerManager == null)
+        {
+            Debug.LogError("TimerManager script not found in the scene! Cannot control the timer.");
+        }
+        
         // IMPORTANT: By default, disable the script until the pit stop is finished.
         enabled = false; 
 
@@ -59,15 +70,21 @@ public class CarExitWaypoint : MonoBehaviour
     /// <summary>
     /// This method is the "pitstop_finished" trigger listener.
     /// It must be called externally (e.g., from PitStopTester or PitStopManager) when the service is complete.
+    /// It also STOPS the pit stop timer.
     /// </summary>
     [ContextMenu("TRIGGER: Pit Stop Finished")]
     public void StartExitSequence()
     {
-        // Ensure the car is exactly at the start position of the exit path (last entry waypoint)
+        // --- KEY ACTION: STOP THE TIMER ---
+        if (timerManager != null)
+        {
+            // Call the public method on the TimerManager instance to stop it.
+            timerManager.StopTimer(); 
+        }
+
+        // Ensure the car is exactly at the start position of the exit path
         if (exitWaypoints.Count > 0)
         {
-            // Nota: se i waypoint di ingresso e uscita condividono la posizione finale/iniziale,
-            // questo assicura che l'auto sia nel punto esatto.
             transform.position = exitWaypoints[0].position;
         }
 
@@ -76,6 +93,6 @@ public class CarExitWaypoint : MonoBehaviour
         
         // Enable the script to start the Update loop and movement
         enabled = true; 
-        Debug.Log("--- LISTENER ACTIVATED: pitstop_finished --- Car is leaving the pit stop!");
+        Debug.Log("--- LISTENER ACTIVATED: pitstop_finished --- Car is leaving the pit stop, timer stopped!");
     }
 }
