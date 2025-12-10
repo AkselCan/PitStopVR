@@ -808,9 +808,9 @@ MonoBehaviour:
   - {fileID: 369642659}
   - {fileID: 1597252115}
   - {fileID: 93469138}
-  movementSpeed: 8
-  stoppingDistance: 0.1
-  rotationSpeed: 720
+  movementSpeed: 3
+  stoppingDistance: 0.01
+  rotationSpeed: 8
   carParent: {fileID: 1159504002}
 --- !u!1001 &144555134
 PrefabInstance:
@@ -1638,9 +1638,9 @@ MonoBehaviour:
   - {fileID: 425651187}
   - {fileID: 963620795}
   - {fileID: 1915621204}
-  movementSpeed: 8
-  stoppingDistance: 0.1
-  rotationSpeed: 720
+  movementSpeed: 3
+  stoppingDistance: 0.01
+  rotationSpeed: 8
 --- !u!114 &445385168 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4343660526480754339, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
@@ -5458,7 +5458,7 @@ MonoBehaviour:
   - {fileID: 156292311}
   - {fileID: 1803696369}
   - {fileID: 2126306159}
-  exitSpeed: 20
+  exitSpeed: 10
   rotationSpeed: 5
   stoppingDistance: 0.1
 --- !u!1001 &1168010007
@@ -8060,7 +8060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tireCenter: {fileID: 1027417865}
   gunTip: {fileID: 770590785}
-  activationRadius: 0.6
+  activationRadius: 0.4
   holdDuration: 1
   triggerAction:
     m_UseReference: 1
@@ -8108,6 +8108,8 @@ MonoBehaviour:
   debugDistanceToTire: 0
   debugTriggerValue: 0
   debugHoldTimer: 0
+  debugInRange: 0
+  debugHoldSatisfied: 0
 --- !u!114 &1709533078
 MonoBehaviour:
   m_ObjectHideFlags: 0
