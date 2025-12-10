@@ -15,6 +15,12 @@ public class CarMovementWaypoint : MonoBehaviour
     // Increased speed for rotation between waypoint 9 and 10 (when index is 9)
     public float aggressiveRotationSpeed = 30f; 
 
+    // --- REFERENCE: Reference for the child object to detach ---
+    [Header("Child Detachment")]
+    // This is the object that will be detached from the parent.
+    // Its collider will remain active for interaction.
+    public Transform detachableChildObject; 
+
     // --- REFERENCE FOR THE TIMER MANAGER ---
     // Reference to the TimerManager script instance in the scene.
     private TimerManager timerManager;
@@ -118,14 +124,47 @@ public class CarMovementWaypoint : MonoBehaviour
 
     /// <summary>
     /// Called when the car reaches the final waypoint. 
-    /// This acts as the "pitstop_started" trigger and STARTS THE TIMER.
+    /// It detaches the child object (leaving its collider active), disables the parent's collider,
+    /// AND disables the parent's Rigidbody to prevent it from falling.
+    /// This also acts as the "pitstop_started" trigger and STARTS THE TIMER.
     /// </summary>
     public void StartPitStop()
     {
         pitStopInitiated = true; // Set flag to prevent repeated calls
         enabled = false; // Stop this movement script immediately
 
-        // --- KEY ACTION: START THE TIMER ---
+        // --- KEY ACTION 1: Detach Child Object ---
+        if (detachableChildObject != null)
+        {
+            // Set the parent to null. Child's collider remains active.
+            detachableChildObject.SetParent(null);
+            Debug.Log($"Child object {detachableChildObject.name} detached. Collider remains active.");
+        }
+
+        // --- KEY ACTION 2: Disable Parent's Collider ---
+        Collider parentCollider = GetComponent<Collider>();
+        if (parentCollider != null)
+        {
+            parentCollider.enabled = false;
+            Debug.Log("Parent (car) Collider disabled.");
+        }
+
+        // --- KEY ACTION 3: Disable Parent's Rigidbody (Prevents falling) ---
+        Rigidbody parentRigidbody = GetComponent<Rigidbody>();
+        if (parentRigidbody != null)
+        {
+            // Disabling the Rigidbody component will stop the physics engine 
+            // (including gravity) from affecting the parent object.
+            parentRigidbody.isKinematic = true; // or parentRigidbody.enabled = false; 
+                                                // isKinematic is often safer for immediate halt.
+            Debug.Log("Parent (car) Rigidbody disabled/set to Kinematic to prevent falling.");
+        }
+        else
+        {
+            Debug.LogWarning("No Rigidbody found on the parent object (the one running CarMovementWaypoint). Ensure it has one if it was falling.");
+        }
+
+        // --- KEY ACTION 4: START THE TIMER ---
         if (timerManager != null)
         {
             // Call the public method on the TimerManager instance.
