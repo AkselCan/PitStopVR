@@ -7,28 +7,23 @@ using UnityEngine.InputSystem;
 public class TireGunInteraction : MonoBehaviour
 {
     [Header("References")]
-    [Tooltip("Point at the center of the wheel you're servicing.")]
     public Transform tireCenter;
-
-    [Tooltip("Tip of the tire gun (child transform on the gun).")]
     public Transform gunTip;
 
     [Header("Interaction Settings")]
-    [Tooltip("How close the gun tip must be to the tire center.")]
     public float activationRadius = 0.25f;
-
-    [Tooltip("How long the trigger must be held (seconds).")]
     public float holdDuration = 1.0f;
-
-    [Tooltip("Input System action for the trigger (e.g. XRI RightHand / Activate).")]
     public InputActionProperty triggerAction;
 
     [Header("Events")]
-    [Tooltip("Fires the FIRST time you successfully hold: unscrew + tire swap.")]
     public UnityEvent onUnscrewAndSwap;
-
-    [Tooltip("Fires the SECOND time you successfully hold: screw on + car exit.")]
     public UnityEvent onScrewOnAndDrive;
+
+    [Header("Debug")]
+    [SerializeField] private bool debugLogs = true;
+    [SerializeField] private float debugDistanceToTire;
+    [SerializeField] private float debugTriggerValue;
+    [SerializeField] private float debugHoldTimer;
 
     private float holdTimer = 0f;
     private bool firstStageDone = false;
@@ -48,9 +43,15 @@ public class TireGunInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (!IsGunInRange())
+        bool inRange = IsGunInRange();
+
+        if (!inRange)
         {
+            if (holdTimer > 0f && debugLogs)
+                Debug.Log("TireGunInteraction: Left range, resetting hold timer.");
+
             holdTimer = 0f;
+            debugHoldTimer = holdTimer;
             return;
         }
 
@@ -58,53 +59,83 @@ public class TireGunInteraction : MonoBehaviour
             ? triggerAction.action.ReadValue<float>()
             : 0f;
 
+        debugTriggerValue = triggerValue;
+
         bool triggerPressed = triggerValue > 0.8f;
+
+        if (debugLogs)
+        {
+            Debug.Log($"TireGunInteraction: In range. Trigger value={triggerValue}, pressed={triggerPressed}");
+        }
 
         if (triggerPressed)
         {
             if (waitingForRelease)
             {
-                // Already fired a stage; must release once before next
                 holdTimer = 0f;
+                debugHoldTimer = holdTimer;
                 return;
             }
 
             holdTimer += Time.deltaTime;
+            debugHoldTimer = holdTimer;
 
             if (holdTimer >= holdDuration)
             {
                 holdTimer = 0f;
+                debugHoldTimer = holdTimer;
                 FireCurrentStage();
-                waitingForRelease = true;   // forces a let-go between stages
+                waitingForRelease = true;
             }
         }
         else
         {
+            if (holdTimer > 0f && debugLogs)
+                Debug.Log("TireGunInteraction: Trigger released, resetting hold timer.");
+
             holdTimer = 0f;
+            debugHoldTimer = holdTimer;
             waitingForRelease = false;
         }
     }
 
     private bool IsGunInRange()
     {
-        if (gunTip == null || tireCenter == null) return false;
-        return Vector3.Distance(gunTip.position, tireCenter.position) <= activationRadius;
+        if (gunTip == null || tireCenter == null)
+        {
+            debugDistanceToTire = -1f;
+            return false;
+        }
+
+        float dist = Vector3.Distance(gunTip.position, tireCenter.position);
+        debugDistanceToTire = dist;
+
+        bool inRange = dist <= activationRadius;
+
+        if (debugLogs)
+        {
+            Debug.Log($"TireGunInteraction: Distance={dist}, activationRadius={activationRadius}, inRange={inRange}");
+        }
+
+        return inRange;
     }
 
     private void FireCurrentStage()
     {
         if (!firstStageDone)
         {
-            // Stage 1: unscrew + swap tires
+            if (debugLogs)
+                Debug.Log("TireGunInteraction: Stage 1 (unscrew + swap) fired.");
+
             onUnscrewAndSwap?.Invoke();
             firstStageDone = true;
-            Debug.Log("TireGunInteraction: Stage 1 (unscrew + swap) fired.");
         }
         else
         {
-            // Stage 2: screw on + car drive away
+            if (debugLogs)
+                Debug.Log("TireGunInteraction: Stage 2 (screw on + drive away) fired.");
+
             onScrewOnAndDrive?.Invoke();
-            Debug.Log("TireGunInteraction: Stage 2 (screw on + drive away) fired.");
         }
     }
 
@@ -115,4 +146,3 @@ public class TireGunInteraction : MonoBehaviour
         Gizmos.DrawWireSphere(tireCenter.position, activationRadius);
     }
 }
-
