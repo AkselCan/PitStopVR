@@ -18,9 +18,9 @@ public class CarMovementWaypoint : MonoBehaviour
 
     // Minimum delay before the car starts moving (in seconds)
     [Header("Initial Arrival Delay")]
-    public float minInitialDelay = 10f;
+    public float minInitialDelay = 5f;
     // Maximum delay before the car starts moving (in seconds)
-    public float maxInitialDelay = 20f;
+    public float maxInitialDelay = 10f;
 
     // --- REFERENCE FOR THE TIMER MANAGER ---
     // Reference to the TimerManager script instance in the scene.
