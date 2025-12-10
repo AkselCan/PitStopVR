@@ -33,7 +33,7 @@ public class CarMovementWaypoint : MonoBehaviour
 
     void Start()
     {
-        // 1. Find the TimerManager script instance in the scene.
+        // 1. --- TIMER MANAGER INITIALIZATION ---
         timerManager = FindObjectOfType<TimerManager>();
 
         if (timerManager == null)
@@ -45,19 +45,18 @@ public class CarMovementWaypoint : MonoBehaviour
             // Ensure the timer is stopped and reset at the start of the scene.
             timerManager.StopTimer(); 
         }
-
+        
+        // 2. --- WAYPOINT AND POSITION INITIALIZATION ---
         // Initial check to ensure waypoints have been assigned
         if (waypoints.Count == 0)
         {
             Debug.LogError("Waypoints list is empty! Please assign waypoints in the Inspector.");
             enabled = false; 
+            return;
         }
         
         // Set the car's height to the starting waypoint's height
-        if (waypoints.Count > 0)
-        {
-            transform.position = new Vector3(transform.position.x, waypoints[0].position.y, transform.position.z);
-        }
+        transform.position = new Vector3(transform.position.x, waypoints[0].position.y, transform.position.z);
     }
 
     void Update()
@@ -155,8 +154,7 @@ public class CarMovementWaypoint : MonoBehaviour
         {
             // Disabling the Rigidbody component will stop the physics engine 
             // (including gravity) from affecting the parent object.
-            parentRigidbody.isKinematic = true; // or parentRigidbody.enabled = false; 
-                                                // isKinematic is often safer for immediate halt.
+            parentRigidbody.isKinematic = true; // isKinematic is often safer for immediate halt.
             Debug.Log("Parent (car) Rigidbody disabled/set to Kinematic to prevent falling.");
         }
         else
