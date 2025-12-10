@@ -808,9 +808,9 @@ MonoBehaviour:
   - {fileID: 369642659}
   - {fileID: 1597252115}
   - {fileID: 93469138}
-  movementSpeed: 8
-  stoppingDistance: 0.1
-  rotationSpeed: 720
+  movementSpeed: 3
+  stoppingDistance: 0.0001
+  rotationSpeed: 8
   carParent: {fileID: 1159504002}
 --- !u!1001 &144555134
 PrefabInstance:
@@ -1604,9 +1604,144 @@ MonoBehaviour:
   - {fileID: 425651187}
   - {fileID: 963620795}
   - {fileID: 1915621204}
-  movementSpeed: 8
-  stoppingDistance: 0.1
-  rotationSpeed: 720
+  movementSpeed: 3
+  stoppingDistance: 0.0001
+  rotationSpeed: 10
+--- !u!114 &431111283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431111275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractionManager: {fileID: 0}
+  m_Colliders: []
+  m_InteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 1
+  m_DistanceCalculationMode: 1
+  m_SelectMode: 0
+  m_FocusMode: 1
+  m_CustomReticle: {fileID: 0}
+  m_AllowGazeInteraction: 0
+  m_AllowGazeSelect: 0
+  m_OverrideGazeTimeToSelect: 0
+  m_GazeTimeToSelect: 0.5
+  m_OverrideTimeToAutoDeselectGaze: 0
+  m_TimeToAutoDeselectGaze: 3
+  m_AllowGazeAssistance: 0
+  m_FirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 431111279}
+        m_TargetAssemblyTypeName: OldTireMovementHandler, Assembly-CSharp
+        m_MethodName: InitiateTireMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstFocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastFocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Activated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+  m_StartingInteractionStrengthFilters: []
+  m_OnFirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnLastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectCanceled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!65 &431111284
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431111275}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.29856542, y: 0.47020274, z: 0.46305993}
+  m_Center: {x: -0.00869993, y: -0.000000037252903, z: 0.0000035986304}
 --- !u!114 &445385168 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4343660526480754339, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
@@ -4997,8 +5132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbf797a27591064ab5c51f10e8ebb19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carExitScript: {fileID: 0}
-  carEntryScript: {fileID: 0}
 --- !u!1001 &1144885957
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5251,6 +5384,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100004, guid: 62d38c3b81a175f4585f3bb99fca3071, type: 3}
       insertIndex: -1
       addedObject: {fileID: 431111279}
+    - targetCorrespondingSourceObject: {fileID: 100004, guid: 62d38c3b81a175f4585f3bb99fca3071, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 431111284}
+    - targetCorrespondingSourceObject: {fileID: 100004, guid: 62d38c3b81a175f4585f3bb99fca3071, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 431111283}
   m_SourcePrefab: {fileID: 100100000, guid: 62d38c3b81a175f4585f3bb99fca3071, type: 3}
 --- !u!4 &1159504002 stripped
 Transform:
