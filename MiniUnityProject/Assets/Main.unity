@@ -8060,7 +8060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tireCenter: {fileID: 1027417865}
   gunTip: {fileID: 770590785}
-  activationRadius: 0.4
+  activationRadius: 0.2
   holdDuration: 1
   triggerAction:
     m_UseReference: 1
