@@ -4,12 +4,15 @@ using System.Collections.Generic;
 public class CarExitWaypoint : MonoBehaviour
 {
     [Header("Exit Path Settings")]
-    public List<Transform> exitWaypoints = new List<Transform>(); 
-    public float exitSpeed = 20f;      
-    public float rotationSpeed = 5f; 
-    public float stoppingDistance = 0.1f; 
+    public List<Transform> exitWaypoints = new List<Transform>();
+    public float exitSpeed = 20f;
+    public float rotationSpeed = 5f;
+    public float stoppingDistance = 0.1f;
 
-    // --- NEW REFERENCE FOR THE TIMER MANAGER ---
+    [Header("Exit Audio Settings")]
+    public AudioClip exitAudioClip;   // new audio to play once when exit begins
+
+    private AudioSource audioSource;
     private TimerManager timerManager;
 
     private Quaternion rotationOffset = Quaternion.Euler(0, 180, 0);
@@ -17,16 +20,22 @@ public class CarExitWaypoint : MonoBehaviour
 
     void Start()
     {
-        // 1. Find the TimerManager script instance in the scene.
-        timerManager = FindObjectOfType<TimerManager>();
+        // Get the AudioSource on the car
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("No AudioSource found on the car!");
+        }
 
+        // Find TimerManager in scene
+        timerManager = FindObjectOfType<TimerManager>();
         if (timerManager == null)
         {
             Debug.LogError("TimerManager script not found in the scene! Cannot control the timer.");
         }
-        
-        // IMPORTANT: By default, disable the script until the pit stop is finished.
-        enabled = false; 
+
+        // Disable movement until pitstop is finished
+        enabled = false;
 
         if (exitWaypoints.Count == 0)
         {
@@ -36,19 +45,18 @@ public class CarExitWaypoint : MonoBehaviour
 
     void Update()
     {
-        // Check if the exit path is completed
         if (currentWaypointIndex >= exitWaypoints.Count)
         {
             Debug.Log("Car has successfully exited the pit lane and is back on track.");
-            enabled = false; 
+            enabled = false;
             return;
         }
 
         Vector3 targetPosition = exitWaypoints[currentWaypointIndex].position;
 
-        // 1. Rotation 
+        // Rotation
         Vector3 directionToTarget = targetPosition - transform.position;
-        directionToTarget.y = 0; 
+        directionToTarget.y = 0;
 
         if (directionToTarget != Vector3.zero)
         {
@@ -57,10 +65,10 @@ public class CarExitWaypoint : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, correctedRotation, rotationSpeed * Time.deltaTime);
         }
 
-        // 2. Movement 
+        // Movement
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, exitSpeed * Time.deltaTime);
 
-        // 3. Waypoint Check
+        // Waypoint Check
         if (Vector3.Distance(transform.position, targetPosition) < stoppingDistance)
         {
             currentWaypointIndex++;
@@ -68,31 +76,37 @@ public class CarExitWaypoint : MonoBehaviour
     }
 
     /// <summary>
-    /// This method is the "pitstop_finished" trigger listener.
-    /// It must be called externally (e.g., from PitStopTester or PitStopManager) when the service is complete.
-    /// It also STOPS the pit stop timer.
+    /// Triggered externally when the pit stop service is completed.
+    /// Stops timer, changes audio, and starts exit movement.
     /// </summary>
     [ContextMenu("TRIGGER: Pit Stop Finished")]
     public void StartExitSequence()
     {
-        // --- KEY ACTION: STOP THE TIMER ---
-        if (timerManager != null)
+        // --- PLAY EXIT AUDIO ---
+        if (audioSource != null && exitAudioClip != null)
         {
-            // Call the public method on the TimerManager instance to stop it.
-            timerManager.StopTimer(); 
+            audioSource.loop = false;             // play once
+            audioSource.clip = exitAudioClip;     // assign new clip
+            audioSource.Play();                   // play immediately
         }
 
-        // Ensure the car is exactly at the start position of the exit path
+        // --- STOP THE TIMER ---
+        if (timerManager != null)
+        {
+            timerManager.StopTimer();
+        }
+
+        // Position at first exit point
         if (exitWaypoints.Count > 0)
         {
             transform.position = exitWaypoints[0].position;
         }
 
-        // Reset index to start from the first exit waypoint
-        currentWaypointIndex = 0; 
-        
-        // Enable the script to start the Update loop and movement
-        enabled = true; 
+        currentWaypointIndex = 0;
+
+        // Enable movement
+        enabled = true;
+
         Debug.Log("--- LISTENER ACTIVATED: pitstop_finished --- Car is leaving the pit stop, timer stopped!");
     }
 }
