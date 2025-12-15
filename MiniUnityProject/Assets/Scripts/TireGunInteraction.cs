@@ -36,14 +36,14 @@ public class TireGunInteraction : MonoBehaviour
     [SerializeField] private bool debugHoldSatisfied;
 
     private float holdTimer = 0f;
-    private bool holdSatisfiedForStage = false;    // Did we hold long enough this visit?
-    private bool firstStageDone = false;           // Has Stage 1 fired?
-    private bool sequenceCompleted = false;        // Has Stage 2 fired?
+    private bool holdSatisfiedForStage = false;    // trigger held long enough
+    private bool firstStageDone = false;           // Stage 1 completed or not
+    private bool sequenceCompleted = false;        // Stage 2 completed or not
     private bool wasInRangeLastFrame = false;
     private bool wasTriggerPressedLastFrame = false;
 
-    // Between stages: require a release before Stage 2 can arm
-    private bool hasReleasedSinceLastStage = true; // true initially so Stage 1 isn't gated
+    // Between stages require a trigger release
+    private bool hasReleasedSinceLastStage = true; // set to true so Stage 1 isn't blocked
 
     private void OnEnable()
     {
@@ -52,16 +52,16 @@ public class TireGunInteraction : MonoBehaviour
     }
 
     private void OnDisable()
-    {
+    { 
         if (triggerAction != null && triggerAction.action != null)
             triggerAction.action.Disable();
-    }
+    } 
+
 
     private void Update()
     {
         bool inRange = IsGunInRange();
         debugInRange = inRange;
-
         float triggerValue = triggerAction.action != null
             ? triggerAction.action.ReadValue<float>()
             : 0f;
@@ -69,14 +69,13 @@ public class TireGunInteraction : MonoBehaviour
         debugTriggerValue = triggerValue;
         bool triggerPressed = triggerValue > 0.8f;
 
-        // Are we allowed to arm a stage right now?
-        // - Stage 1: allowed as long as sequence not completed.
-        // - Stage 2: only allowed if Stage 1 done AND user has released since then.
+
+        // Ensure proper sequencing with release in middle
         bool stageArmAllowed =
             !sequenceCompleted &&
             (!firstStageDone || (firstStageDone && hasReleasedSinceLastStage));
 
-        // While in range, holding trigger, and allowed to arm, accumulate hold time
+        // While holding gun trigger in range at the right pointin the sequence, accumulate hold time
         if (inRange && triggerPressed && stageArmAllowed)
         {
             holdTimer += Time.deltaTime;
@@ -92,34 +91,33 @@ public class TireGunInteraction : MonoBehaviour
             }
         }
 
-        // Detect leaving the zone (inRange -> !inRange)
+
+        // Detect zone leaving (going from inRange to !inRange)
         if (!inRange && wasInRangeLastFrame)
         {
             if (holdSatisfiedForStage && stageArmAllowed)
             {
-                // Valid hold achieved in range, and now backing out ? fire current stage
+                // Valid hold achieved in range and backing out of the range, trigger stage
                 if (debugLogs)
                     Debug.Log("TireGunInteraction: Exited zone after valid hold, firing stage.");
                 FireCurrentStage();
             }
 
-            // Reset per-visit state
+            // Reset state coditions 
             holdTimer = 0f;
             holdSatisfiedForStage = false;
             debugHoldTimer = holdTimer;
             debugHoldSatisfied = false;
         }
 
-        // If in range and trigger released before holdDuration, cancel the charge
+        // If gun in range and the trigger is releasedearly, cancel 
         if (inRange && !triggerPressed && !holdSatisfiedForStage)
         {
             holdTimer = 0f;
             debugHoldTimer = holdTimer;
         }
-        // If holdSatisfiedForStage is true, we keep it armed until we leave the zone,
-        // whether or not the trigger is still held.
 
-        // Detect a release edge between stages (to allow Stage 2)
+        // Detect a release between stages (to allow Stage 2)
         if (!triggerPressed && wasTriggerPressedLastFrame)
         {
             if (firstStageDone && !sequenceCompleted)
@@ -129,11 +127,11 @@ public class TireGunInteraction : MonoBehaviour
                     Debug.Log("TireGunInteraction: Release detected between stages; Stage 2 can arm now.");
             }
         }
-
         wasInRangeLastFrame = inRange;
         wasTriggerPressedLastFrame = triggerPressed;
     }
 
+    // check if gun tip is in range of tire center
     private bool IsGunInRange()
     {
         if (gunTip == null || tireCenter == null)
@@ -159,19 +157,19 @@ public class TireGunInteraction : MonoBehaviour
     {
         if (!firstStageDone)
         {
-            // Stage 1: unscrew + swap
+            // Stage 1, unscrew to allow swap
             if (debugLogs)
-                Debug.Log("TireGunInteraction: Stage 1 (unscrew + swap) fired.");
+                Debug.Log("TireGunInteraction: Stage 1 (unscrew and swap) fired.");
 
             onUnscrewAndSwap?.Invoke();
             firstStageDone = true;
 
-            // After Stage 1, require a release before Stage 2 can arm
+            // require a release between stages
             hasReleasedSinceLastStage = false;
         }
         else if (!sequenceCompleted)
         {
-            // Stage 2: screw on + drive away
+            // Stage 2, screw on tire to allow car to drive away
             if (debugLogs)
                 Debug.Log("TireGunInteraction: Stage 2 (screw on + drive) fired.");
 
@@ -179,6 +177,7 @@ public class TireGunInteraction : MonoBehaviour
             sequenceCompleted = true;
         }
     }
+
 
     private void OnDrawGizmosSelected()
     {
